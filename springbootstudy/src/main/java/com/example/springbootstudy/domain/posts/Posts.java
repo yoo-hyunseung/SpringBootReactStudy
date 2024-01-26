@@ -1,5 +1,6 @@
 package com.example.springbootstudy.domain.posts;
 
+import com.example.springbootstudy.domain.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // 기본 생성자 자동 추가 lombok
 @Getter
 @Entity // table mapping
-public class Posts {
+public class Posts extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) // auto Increment db pk-> 자동증가
     private Long id;

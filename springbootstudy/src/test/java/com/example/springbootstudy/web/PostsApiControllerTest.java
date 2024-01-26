@@ -35,6 +35,7 @@ public class PostsApiControllerTest {
     @AfterEach
     public void tearDown() throws Exception {
         postsRepository.deleteAll();
+
     }
 
     @Test
