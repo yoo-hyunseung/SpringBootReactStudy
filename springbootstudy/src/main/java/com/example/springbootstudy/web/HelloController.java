@@ -1,11 +1,14 @@
 package com.example.springbootstudy.web;
 
 import com.example.springbootstudy.web.dto.HelloResponseDto;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
+@CrossOrigin("http://localhost:3000")
 public class HelloController {
     @GetMapping("/hello")
     public String hello(){
@@ -19,8 +22,12 @@ public class HelloController {
 
     }
 
-    @GetMapping("api/test")
-    public String react_Test() {
-        return "helllo";
+    @GetMapping("/")
+    public String react_Test(String str) {
+        System.out.println("before : "+str);
+        str = "after"+str;
+        return str;
     }
+
+
 }
