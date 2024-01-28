@@ -6,10 +6,11 @@ import com.example.springbootstudy.web.dto.PostsResponseDto;
 import com.example.springbootstudy.web.dto.PostsSaveRequestDto;
 import com.example.springbootstudy.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class PostsService {
@@ -43,5 +44,15 @@ public class PostsService {
         Posts entity = postsRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("no posts response id =" + id));
         return new PostsResponseDto(entity);
+    }
+
+    public List<PostsResponseDto> findAll(){
+        List<Posts> postsList = postsRepository.findAll();
+        List<PostsResponseDto> postsResponseDtos = new ArrayList<>();
+        for(int i =0 ; i< postsList.size();i++){
+            postsResponseDtos.add(new PostsResponseDto(postsList.get(i)));
+        }
+//        Posts postsAll = postsRepository.findAll();
+        return postsResponseDtos;
     }
 }

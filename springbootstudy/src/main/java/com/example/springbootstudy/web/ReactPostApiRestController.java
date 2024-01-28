@@ -3,11 +3,11 @@ package com.example.springbootstudy.web;
 import com.example.springbootstudy.service.PostsService;
 import com.example.springbootstudy.web.dto.PostsResponseDto;
 import com.example.springbootstudy.web.dto.PostsSaveRequestDto;
-import com.example.springbootstudy.web.dto.PostsUpdateRequestDto;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 //@RequiredArgsConstructor는 초기화 되지않은 final 필드나, @NonNull 이 붙은 필드에 대해 생성자를 생성
 // @Autowired 대신 사용
@@ -15,21 +15,23 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin("http://localhost:3000")
 // CORS 설정
-public class PostsApiController {
+public class ReactPostApiRestController {
+    //RequiredArgsConstructor로 final 필드 의존성 주입
+    // final 불변성
     private final PostsService postsService;
 
-    @PostMapping("/api/vi/posts")
-    public Long save(@RequestBody PostsSaveRequestDto postsSaveRequestDto){
-        return postsService.save(postsSaveRequestDto);
+    @PostMapping(value = "/save/")
+    public Long postSave(@RequestBody PostsSaveRequestDto requestDto){
+        return postsService.save(requestDto);
     }
 
-    @PutMapping("api/vi/posts/{id}")
-    public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto postsUpdateRequestDto) {
-        return postsService.update(id, postsUpdateRequestDto);
+    @GetMapping(value ="/select")
+    public List<PostsResponseDto> postList(){
+        return postsService.findAll();
     }
 
-    @GetMapping("/api/vi/posts/{id}")
-    public PostsResponseDto findById(@PathVariable Long id){
+    @GetMapping(value = "/selectOne")
+    public PostsResponseDto postFindOne(@RequestParam Long id){
         return postsService.findById(id);
     }
 }

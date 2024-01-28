@@ -1,11 +1,11 @@
 package com.example.springbootstudy.web;
 
 import com.example.springbootstudy.web.dto.HelloResponseDto;
-import org.springframework.ui.Model;
+import com.example.springbootstudy.web.dto.PostsSaveRequestDto;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
@@ -29,5 +29,14 @@ public class HelloController {
         return str;
     }
 
+    @PostMapping( value = "/saveTest/")
+    public Long savePost(@RequestBody PostsSaveRequestDto requestDto){
+        String title,content,author;
+        title = requestDto.getTitle();
+        content = requestDto.getContent();
+        author = requestDto.getAuthor();
+        System.out.println(title + " " + author + " " + content);
+        return 1l;
+    }
 
 }
