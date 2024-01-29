@@ -19,6 +19,18 @@ function PostsDetail(){
             console.log(error);
         })
     }, []);
+    const postsDelete=()=>{
+        axios.get("http://localhost:8080/postDelete",{
+            params:{
+                id:id
+            }
+        }).then(res=>{
+            alert("삭제완료")
+            navigate("/");
+        }).catch(err=>{
+            console.log(err);
+        })
+    }
     return (
         <Fragment>
             <h1>PostSave</h1>
@@ -37,6 +49,7 @@ function PostsDetail(){
                 </Form.Group>
                 <>&nbsp;&nbsp;&nbsp;&nbsp;</>
                 <Button variant="danger" style={{float: 'right'}} type={"button"} onClick={()=>navigate(-1)}>return</Button>
+                <Button variant="danger" style={{float: 'right'}} type={"button"} onClick={postsDelete}>delete</Button>
             </Form>
 
         </Fragment>

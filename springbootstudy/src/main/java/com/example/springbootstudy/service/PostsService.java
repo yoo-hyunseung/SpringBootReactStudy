@@ -2,6 +2,7 @@ package com.example.springbootstudy.service;
 
 import com.example.springbootstudy.domain.posts.Posts;
 import com.example.springbootstudy.domain.posts.PostsRepository;
+import com.example.springbootstudy.web.dto.PostsListResponseDto;
 import com.example.springbootstudy.web.dto.PostsResponseDto;
 import com.example.springbootstudy.web.dto.PostsSaveRequestDto;
 import com.example.springbootstudy.web.dto.PostsUpdateRequestDto;
@@ -11,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class PostsService {
@@ -46,13 +49,19 @@ public class PostsService {
         return new PostsResponseDto(entity);
     }
 
-    public List<PostsResponseDto> findAll(){
-        List<Posts> postsList = postsRepository.findAll();
-        List<PostsResponseDto> postsResponseDtos = new ArrayList<>();
-        for(int i =0 ; i< postsList.size();i++){
-            postsResponseDtos.add(new PostsResponseDto(postsList.get(i)));
-        }
-//        Posts postsAll = postsRepository.findAll();
-        return postsResponseDtos;
+    @Transactional(readOnly = true)
+    public List<PostsListResponseDto> findAllDesc(){
+        return postsRepository.findAllDesc()
+                .stream()
+                .map(posts->new PostsListResponseDto(posts))
+                .collect(Collectors.toList());
+    }
+
+    public void postDelete(Long id){
+        Posts post = postsRepository.findById(id).orElseThrow(()->
+                    new IllegalArgumentException("no posts")
+                );
+//        postsRepository.deleteById(id);
+        postsRepository.delete(post);
     }
 }

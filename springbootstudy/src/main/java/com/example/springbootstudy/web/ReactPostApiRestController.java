@@ -1,6 +1,8 @@
 package com.example.springbootstudy.web;
 
+import com.example.springbootstudy.domain.posts.Posts;
 import com.example.springbootstudy.service.PostsService;
+import com.example.springbootstudy.web.dto.PostsListResponseDto;
 import com.example.springbootstudy.web.dto.PostsResponseDto;
 import com.example.springbootstudy.web.dto.PostsSaveRequestDto;
 import lombok.NoArgsConstructor;
@@ -26,12 +28,19 @@ public class ReactPostApiRestController {
     }
 
     @GetMapping(value ="/select")
-    public List<PostsResponseDto> postList(){
-        return postsService.findAll();
+    public List<PostsListResponseDto> postList(){
+        return postsService.findAllDesc();
     }
 
     @GetMapping(value = "/selectOne")
     public PostsResponseDto postFindOne(@RequestParam Long id){
         return postsService.findById(id);
+    }
+
+    @GetMapping(value = "/postDelete")
+    public Long postDelete(@RequestParam Long id){
+//        Posts post =
+        postsService.postDelete(id);
+        return id;
     }
 }

@@ -31,8 +31,8 @@ function Home(){
             <tr>
                 <td key={data.id}>{data.id}</td>
                 <td><NavLink to={"/posts/detail/"+data.id}>{data.title}</NavLink></td>
-                <td>{data.content}</td>
                 <td>{data.author}</td>
+                <td>{data.localDateTime}</td>
             </tr>
         )
     });
