@@ -35,10 +35,11 @@ function PostsSave(){
             headers: {
                 "Content-Type": "application/json"
             }
-            // springboot 에서 json 방식이므로 선언해줘야한다.
+            // ***springboot 에서 json 방식이므로 선언해줘야한다.***
         })
             .then((res)=>{
                 console.log("post post")
+                navigate("/")
             }).catch((err)=>{
             console.log(err);
         })
@@ -75,7 +76,6 @@ function PostsSave(){
                 <>&nbsp;&nbsp;&nbsp;&nbsp;</>
                 <Button variant="danger" style={{float: 'right'}} type={"button"} onClick={()=>navigate(-1)}>return</Button>
             </Form>
-
         </Fragment>
     );
 }
