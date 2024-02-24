@@ -6,6 +6,7 @@ package com.example.springsecurityjwt2.security.jwt.constants;
  * - 토큰 타입
  */
 public class JwtConstants {
+
     public static final String AUTH_LOGIN_URL = "/login";
     public static final String TOKEN_HEADER = "Authorization";
     public static final String TOKEN_PREFIX = "Bearer ";

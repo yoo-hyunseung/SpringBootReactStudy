@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +24,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Slf4j
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
+// @preAuthorize,@postAuthorized, @Secured 활성화
 public class SecurityConfig {
     @Autowired
     private CustomUserDetailService customUserDetailService;
@@ -30,7 +33,14 @@ public class SecurityConfig {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+
     private AuthenticationManager authenticationManager;
+    @Bean
+    public AuthenticationManager authenticationManager
+            (AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
+        return authenticationManager;
+    }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         log.info(" 시큐리티 설정...");
@@ -53,10 +63,10 @@ public class SecurityConfig {
         // username , password -> jwt 토큰을 생성
          */
         // addFilterAt(설정해줄 필터 인스턴스, 어떤 필터에 대해서 동작을 시킬지 클래스)
-        http.addFilterAt(new JwtAuthenticationFilter(authenticationManager,jwtTokenProvider)
-                        , UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtRequestFilter(jwtTokenProvider)
-                        , OncePerRequestFilter.class);
+        http.addFilterAt(new JwtAuthenticationFilter(authenticationManager, jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtRequestFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+        ;
+
 
         // 인가 설정
         /*
@@ -71,7 +81,7 @@ public class SecurityConfig {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() //static 정적 자원 경로 허용
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/login").permitAll()
-                        .requestMatchers("user/**").hasAnyRole("USER", "ADMIN") // 2개이상 애니롤
+                        .requestMatchers("/users/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN") // 1개만
                         .anyRequest().authenticated() // 나머지는 인증된 사용자만
                 // 상위경로를 먼저 적어주고 하위 경로를 적어준다.
@@ -93,10 +103,5 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder(); // 암호화 알고리즘 방식
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager
-            (AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
-        return authenticationManager;
-    }
+
 }

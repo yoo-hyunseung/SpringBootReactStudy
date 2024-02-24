@@ -1,0 +1,38 @@
+GET http://localhost:8080/login?username=user&password=123456
+
+###
+GET http://localhost:8080/users/info
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE3MDk1NjY0NzAsInVubyI6IjEiLCJ1aWQiOiJ1c2VyIiwicm9sIjpbIlJPTEVfVVNFUiJdfQ.D0zszUKd3go8NpDOrajbZUFdB_NeRcdKotKOUx7CxO9Zn8334Y_xlhSp-EWEkIsX7Vq0x0sjZdZqbP8wL05rkw
+
+### 회원 가입 요청 테스트
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "userId": "test",
+  "userPw": "123456",
+  "name": "test",
+  "email": "test@naver.com"
+}
+### 로그인 테스트
+GET http://localhost:8080/login?username=test&password=123456
+
+### 회원정보 조회
+GET http://localhost:8080/users/info
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE3MDk2MTg0MjYsInVubyI6IjMiLCJ1aWQiOiJ0ZXN0Iiwicm9sIjpbIlJPTEVfVVNFUiJdfQ.o1F6g9hYIIOfdPntwb-EgiuBez2iI1SjHHaQ0rhUCp54CbX39AVc_1k5VMoSYIK5hQgPYd5wZk51SQZiWkLQow
+
+### 회원정보 수정
+PUT http://localhost:8080/users
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE3MDk2MTg0MjYsInVubyI6IjMiLCJ1aWQiOiJ0ZXN0Iiwicm9sIjpbIlJPTEVfVVNFUiJdfQ.o1F6g9hYIIOfdPntwb-EgiuBez2iI1SjHHaQ0rhUCp54CbX39AVc_1k5VMoSYIK5hQgPYd5wZk51SQZiWkLQow
+Content-Type: application/json
+
+{
+  "userId": "test",
+  "userPw": "123456",
+  "name": "updated test",
+  "email": "updated email"
+}
+
+### 회원 삭제
+DELETE http://localhost:8080/users/test
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE3MDk2MTg0MjYsInVubyI6IjMiLCJ1aWQiOiJ0ZXN0Iiwicm9sIjpbIlJPTEVfVVNFUiJdfQ.o1F6g9hYIIOfdPntwb-EgiuBez2iI1SjHHaQ0rhUCp54CbX39AVc_1k5VMoSYIK5hQgPYd5wZk51SQZiWkLQow

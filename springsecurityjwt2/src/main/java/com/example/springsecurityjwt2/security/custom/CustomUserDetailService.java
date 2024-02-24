@@ -33,7 +33,7 @@ public class CustomUserDetailService implements UserDetailsService {
         // UserDetails -> 시큐리티에서 인증된 사용자를 관리하는 것
         // Users -> UserDetails로 변환해줘야하는데
         // Users -> CustomUser(dto)로 변환 시큐리티에서 사용할 수 있도록
-        // customuser 는 UserDetails를 구현한것
+        // customuser 는 UserDetails를 구현한 것
         CustomUser customUser = new CustomUser(user);
 
         log.info("customUser : ");

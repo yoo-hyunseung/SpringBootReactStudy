@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  *  인증 실패시 -> response > status > 401 unauthorized
  *  인증 성공시 successfulAuthentication 실행
  *  -> 성공시 JWT 토큰 생성
- *     생성된 토큰을 response > Headers > authorization 담아서 보낸다
+ *     생성된 토큰을 response > Headers > authorization : JWT 담아서 보낸다
  */
 @Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -40,7 +40,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         // 필터의 URL 경로를 설정 : /login
-        setFilterProcessesUrl("/login");
+        setFilterProcessesUrl(JwtConstants.AUTH_LOGIN_URL); // "/login"
     }
     /**
      * 인증을 시도 하는 메소드
@@ -51,6 +51,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         // 시도, 접근 -> 인증을 시도하는 필터 메소드
+        // /login경로에서 아이디와 비밀번호 요청이 들어오면 데이터베이스에서 값을 확인,인증 수행
         // request , response 에서 값을 가져온다.
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -103,11 +104,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .map((auth)->auth.getAuth())
                 .collect(Collectors.toList());
 
-        // JwtProvider 로
+        // JwtProvider 로 token 생성
         String jwt = jwtTokenProvider.createToken(userNo, userId, roles);
 
         //  Header : {Authorization : Bearer + {jwt} }
-        response.addHeader(JwtConstants.TOKEN_HEADER,JwtConstants.TOKEN_PREFIX+jwt);
+        response.addHeader(JwtConstants.TOKEN_HEADER, JwtConstants.TOKEN_PREFIX + jwt);
         response.setStatus(200);
 
     }

@@ -39,6 +39,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         // 토큰을 체크 토큰이 없으면 다음 필터로 이동
         if (header == null || header.length() == 0 || !header.startsWith(JwtConstants.TOKEN_PREFIX)) {
+            // 다음 필터로 이동
+            filterChain.doFilter(request, response);
             return;
         }
 
