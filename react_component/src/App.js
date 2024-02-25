@@ -3,6 +3,7 @@ import ClassComponent from "./component/ClassComponent";
 import FunctionComponent from "./component/FunctionComponent";
 import CardList from "./props/CardList";
 import LifecycleExample from "./lifecycle/LifecycleExample";
+import Product from "./event/Product";
 
 const App = () => {
     return (
@@ -18,6 +19,9 @@ const App = () => {
             <hr/>
             <h1>LifecycleExample</h1>
             <LifecycleExample/>
+            <hr/>
+            <h1>이벤트 처리 예제</h1>
+            <Product/>
         </>
     );
 };
